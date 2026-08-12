@@ -1,0 +1,37 @@
+{
+  "name": "opentrons-mcp-server",
+  "version": "1.0.0",
+  "description": "Model Context Protocol (MCP) server for Opentrons HTTP API v2 & Python Protocol API",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "build:index": "tsx src/qmd/build-index.ts",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "keywords": [
+    "opentrons",
+    "mcp",
+    "model-context-protocol",
+    "lab-automation"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.6.0",
+    "axios": "^1.8.1",
+    "dotenv": "^16.4.7",
+    "form-data": "^4.0.2",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.13.5",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.6",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,0 +1,417 @@
+[
+  {
+    "file": "opentrons_http_api.md",
+    "section": "Opentrons HTTP API v2 Reference",
+    "content": ""
+  },
+  {
+    "file": "opentrons_http_api.md",
+    "section": "Overview",
+    "content": "The Opentrons HTTP API v2 controls OT-2 and Opentrons Flex robots via RESTful endpoints on port `31950`.\nAll requests require header `Opentrons-Version: 2`."
+  },
+  {
+    "file": "opentrons_http_api.md",
+    "section": "Health Check",
+    "content": "`GET /health`\nReturns robot software and hardware status.\nResponse:\n```json\n{\n  \"name\": \"OT2-Robot\",\n  \"api_version\": \"7.0.0\",\n  \"fw_version\": \"v1.0.0\",\n  \"board_revision\": \"2.1\"\n}\n```"
+  },
+  {
+    "file": "opentrons_http_api.md",
+    "section": "Upload Protocol",
+    "content": "`POST /protocols` (Content-Type: multipart/form-data)\nFiles: `files` (array of protocol files e.g., `.py` or `.json`)\nResponse:\n```json\n{\n  \"data\": {\n    \"id\": \"protocol-id-123\",\n    \"createdAt\": \"2026-08-12T00:00:00Z\",\n    \"protocolType\": \"python\",\n    \"protocolKey\": \"my-protocol\",\n    \"files\": [{\"name\": \"protocol.py\", \"role\": \"main\"}],\n    \"analysisSummaries\": []\n  }\n}\n```"
+  },
+  {
+    "file": "opentrons_http_api.md",
+    "section": "Get Protocol",
+    "content": "`GET /protocols/{protocol_id}`"
+  },
+  {
+    "file": "opentrons_http_api.md",
+    "section": "Create Run",
+    "content": "`POST /runs`\nBody:\n```json\n{\n  \"data\": {\n    \"protocolId\": \"protocol-id-123\"\n  }\n}\n```\nResponse:\n```json\n{\n  \"data\": {\n    \"id\": \"run-id-456\",\n    \"createdAt\": \"2026-08-12T00:00:00Z\",\n    \"status\": \"idle\",\n    \"current\": true,\n    \"actions\": [],\n    \"errors\": [],\n    \"pipettes\": [],\n    \"modules\": []\n  }\n}\n```"
+  },
+  {
+    "file": "opentrons_http_api.md",
+    "section": "Control Run Action",
+    "content": "`POST /runs/{run_id}/actions`\nBody:\n```json\n{\n  \"data\": {\n    \"actionType\": \"play\" // or \"pause\", \"stop\", \"resume\"\n  }\n}\n```"
+  },
+  {
+    "file": "opentrons_http_api.md",
+    "section": "Get Run Status",
+    "content": "`GET /runs/{run_id}`"
+  },
+  {
+    "file": "opentrons_http_api.md",
+    "section": "Enqueue / Execute Direct Commands",
+    "content": "`POST /runs/{run_id}/commands`\nBody:\n```json\n{\n  \"data\": {\n    \"commandType\": \"home\",\n    \"params\": {}\n  }\n}\n```"
+  },
+  {
+    "file": "opentrons_http_api.md",
+    "section": "Get Connected Modules",
+    "content": "`GET /modules`\nResponse:\n```json\n{\n  \"data\": [\n    {\n      \"id\": \"mod-123\",\n      \"serialNumber\": \"TC12345\",\n      \"moduleModel\": \"thermocyclerModuleV1\",\n      \"moduleType\": \"thermocyclerModule\",\n      \"status\": \"idle\"\n    }\n  ]\n}\n```"
+  },
+  {
+    "file": "opentrons_http_api.md",
+    "section": "Get Connected Pipettes",
+    "content": "`GET /pipettes`\nResponse:\n```json\n{\n  \"left\": {\"id\": \"p300_single_v2.0\", \"name\": \"p300_single_gen2\"},\n  \"right\": {\"id\": null, \"name\": null}\n}\n```"
+  },
+  {
+    "file": "opentrons_labware_library.md",
+    "section": "Opentrons Standard Labware Library Reference",
+    "content": ""
+  },
+  {
+    "file": "opentrons_labware_library.md",
+    "section": "Overview",
+    "content": "This reference lists official Opentrons standard labware `load_name` definitions for OT-2 and Opentrons Flex protocols.\n\n---"
+  },
+  {
+    "file": "opentrons_labware_library.md",
+    "section": "Tip Racks (`load_labware`)",
+    "content": ""
+  },
+  {
+    "file": "opentrons_labware_library.md",
+    "section": "OT-2 Tip Racks",
+    "content": "- `opentrons_96_tiprack_10ul` (10uL Standard Tip Rack)\n- `opentrons_96_tiprack_20ul` (20uL Standard Tip Rack)\n- `opentrons_96_tiprack_300ul` (300uL Standard Tip Rack)\n- `opentrons_96_tiprack_1000ul` (1000uL Standard Tip Rack)\n- `opentrons_96_filtertiprack_20ul` (20uL Filter Tip Rack)\n- `opentrons_96_filtertiprack_200ul` (200uL Filter Tip Rack)\n- `opentrons_96_filtertiprack_1000ul` (1000uL Filter Tip Rack)"
+  },
+  {
+    "file": "opentrons_labware_library.md",
+    "section": "Flex Tip Racks",
+    "content": "- `opentrons_flex_96_tiprack_50ul`\n- `opentrons_flex_96_tiprack_200ul`\n- `opentrons_flex_96_tiprack_1000ul`\n- `opentrons_flex_96_filtertiprack_50ul`\n- `opentrons_flex_96_filtertiprack_200ul`\n- `opentrons_flex_96_filtertiprack_1000ul`\n\n---"
+  },
+  {
+    "file": "opentrons_labware_library.md",
+    "section": "Well Plates",
+    "content": ""
+  },
+  {
+    "file": "opentrons_labware_library.md",
+    "section": "PCR Plates",
+    "content": "- `nest_96_wellplate_100ul_pcr_full_skirt`\n- `biorad_96_wellplate_200ul_pcr`\n- `armadillo_96_wellplate_200ul_pcr_full_skirt`"
+  },
+  {
+    "file": "opentrons_labware_library.md",
+    "section": "Microplates (96 Well / 384 Well)",
+    "content": "- `nest_96_wellplate_200ul_flat`\n- `corning_96_wellplate_360ul_flat`\n- `corning_384_wellplate_112ul_flat`\n- `nest_384_wellplate_100ul_flat`"
+  },
+  {
+    "file": "opentrons_labware_library.md",
+    "section": "Deep Well Plates",
+    "content": "- `nest_96_deepwellplate_2ml`\n- `usa_scientific_96_deepwellplate_2.4ml`\n\n---"
+  },
+  {
+    "file": "opentrons_labware_library.md",
+    "section": "Reservoirs",
+    "content": "- `nest_12_reservoir_15ml` (12 Column Reservoir, 15mL per well)\n- `nest_1_reservoir_290ml` (Single Cavity Open Reservoir, 290mL)\n- `usa_scientific_12_reservoir_22ml`\n\n---"
+  },
+  {
+    "file": "opentrons_labware_library.md",
+    "section": "Tube Racks & Aluminum Blocks",
+    "content": ""
+  },
+  {
+    "file": "opentrons_labware_library.md",
+    "section": "Tube Racks",
+    "content": "- `opentrons_24_tuberack_eppendorf_1.5ml_safelock_snapcap`\n- `opentrons_24_tuberack_eppendorf_2ml_safelock_snapcap`\n- `opentrons_24_tuberack_generic_2ml_screwcap`\n- `opentrons_10_tuberack_falcon_4x50ml_6x15ml_conical`\n- `opentrons_6_tuberack_falcon_50ml_conical`\n- `opentrons_15_tuberack_falcon_15ml_conical`"
+  },
+  {
+    "file": "opentrons_labware_library.md",
+    "section": "Aluminum Blocks (for Temperature & Thermocycler Modules)",
+    "content": "- `opentrons_24_aluminumblock_generic_2to2_1_5ml_screwcap`\n- `opentrons_96_aluminumblock_biorad_wellplate_200ul`\n- `opentrons_24_aluminumblock_nest_1.5ml_screwcap`\n- `opentrons_96_aluminumblock_nest_wellplate_100ul`\n\n---"
+  },
+  {
+    "file": "opentrons_labware_library.md",
+    "section": "Example Usage",
+    "content": "```python"
+  },
+  {
+    "file": "opentrons_labware_library.md",
+    "section": "Loading a standard tip rack and deepwell plate",
+    "content": "tiprack = protocol.load_labware('opentrons_96_tiprack_300ul', '1')\nplate = protocol.load_labware('nest_96_wellplate_200ul_flat', '2')\nreservoir = protocol.load_labware('nest_12_reservoir_15ml', '3')\n```"
+  },
+  {
+    "file": "opentrons_modules_guide.md",
+    "section": "Opentrons Hardware Modules Guide & API Reference",
+    "content": ""
+  },
+  {
+    "file": "opentrons_modules_guide.md",
+    "section": "1. Temperature Module (`temperature module gen2`)",
+    "content": ""
+  },
+  {
+    "file": "opentrons_modules_guide.md",
+    "section": "Load Module",
+    "content": "```python\ntemp_mod = protocol.load_module('temperature module gen2', '4') # or slot number e.g. 'D3'\ntemp_block = temp_mod.load_labware('opentrons_24_aluminumblock_generic_2to2_1_5ml_screwcap')\n```"
+  },
+  {
+    "file": "opentrons_modules_guide.md",
+    "section": "API Commands",
+    "content": "- `temp_mod.set_temperature(celsius: float)`\n  - Sets target temperature in °C (4°C to 99°C) and waits until target is reached.\n- `temp_mod.start_set_temperature(celsius: float)`\n  - Sets target temperature asynchronously without blocking execution.\n- `temp_mod.await_temperature(celsius: float)`\n  - Blocks execution until temperature reaches specified target.\n- `temp_mod.deactivate()`\n  - Turns off heating/cooling element.\n- `temp_mod.temperature`: Current temperature in °C.\n- `temp_mod.target`: Target temperature in °C.\n- `temp_mod.status`: Status string (`'holding at target'`, `'cooling'`, `'heating'`, `'idle'`).\n\n---"
+  },
+  {
+    "file": "opentrons_modules_guide.md",
+    "section": "2. Magnetic Module (`magnetic module gen2`)",
+    "content": ""
+  },
+  {
+    "file": "opentrons_modules_guide.md",
+    "section": "Load Module",
+    "content": "```python\nmag_mod = protocol.load_module('magnetic module gen2', '6')\nmag_plate = mag_mod.load_labware('nest_96_wellplate_100ul_pcr_full_skirt')\n```"
+  },
+  {
+    "file": "opentrons_modules_guide.md",
+    "section": "API Commands",
+    "content": "- `mag_mod.engage(height_from_base: float = None, height: float = None, offset: float = None)`\n  - Raises magnetic disc array into engagement height (in mm above labware base).\n- `mag_mod.disengage()`\n  - Lowers magnets to bottom rest position.\n- `mag_mod.status`: Status string (`'engaged'`, `'disengaged'`).\n\n---"
+  },
+  {
+    "file": "opentrons_modules_guide.md",
+    "section": "3. Thermocycler Module (`thermocycler module`)",
+    "content": ""
+  },
+  {
+    "file": "opentrons_modules_guide.md",
+    "section": "Load Module",
+    "content": "Note: Thermocycler occupies slots 7, 8, 10, 11 on OT-2, or slot B1 on Flex.\n```python\ntc_mod = protocol.load_module('thermocycler module')\ntc_plate = tc_mod.load_labware('nest_96_wellplate_100ul_pcr_full_skirt')\n```"
+  },
+  {
+    "file": "opentrons_modules_guide.md",
+    "section": "API Commands",
+    "content": "- `tc_mod.open_lid()`: Opens heated lid.\n- `tc_mod.close_lid()`: Closes heated lid.\n- `tc_mod.set_lid_temperature(celsius: float)`: Sets lid temperature (up to 110°C).\n- `tc_mod.deactivate_lid()`: Deactivates lid heater.\n- `tc_mod.set_block_temperature(celsius: float, hold_time_seconds: float = None, hold_time_minutes: float = None)`\n  - Sets PCR block temperature.\n- `tc_mod.execute_profile(steps: list, repetitions: int, block_max_volume: float = None)`\n  - Executes multi-step PCR thermal cycling profile.\n```python\nprofile = [\n    {'temperature': 95, 'hold_time_seconds': 30},\n    {'temperature': 55, 'hold_time_seconds': 30},\n    {'temperature': 72, 'hold_time_seconds': 60}\n]\ntc_mod.execute_profile(steps=profile, repetitions=30, block_max_volume=50)\n```\n\n---"
+  },
+  {
+    "file": "opentrons_modules_guide.md",
+    "section": "4. Heater-Shifter Module (`heaterShifterModuleV1`)",
+    "content": ""
+  },
+  {
+    "file": "opentrons_modules_guide.md",
+    "section": "Load Module",
+    "content": "```python\nhs_mod = protocol.load_module('heaterShifterModuleV1', '1')\nhs_plate = hs_mod.load_labware('nest_96_wellplate_200ul_flat')\n```"
+  },
+  {
+    "file": "opentrons_modules_guide.md",
+    "section": "API Commands",
+    "content": "- `hs_mod.set_target_temperature(celsius: float)`: Sets temperature (up to 95°C).\n- `hs_mod.set_and_wait_for_shake_speed(rpm: int)`: Sets shaking speed (200 - 3000 RPM) and waits for stabilization.\n- `hs_mod.open_labware_latch()`: Opens automated labware clamp.\n- `hs_mod.close_labware_latch()`: Closes automated labware clamp.\n- `hs_mod.deactivate_heater()`: Turns off heater.\n- `hs_mod.deactivate_shaker()`: Stops shaking.\n\n> **Important**: Always close labware latch (`close_labware_latch()`) before initiating shaking or heating!"
+  },
+  {
+    "file": "opentrons_python_api.md",
+    "section": "Opentrons Python Protocol API v2 Reference",
+    "content": ""
+  },
+  {
+    "file": "opentrons_python_api.md",
+    "section": "Overview",
+    "content": "The Opentrons Python Protocol API allows users to write automated liquid handling protocols for OT-2 and Opentrons Flex robots."
+  },
+  {
+    "file": "opentrons_python_api.md",
+    "section": "Metadata & Requirements",
+    "content": "```python\nfrom opentrons import protocol_api\n\nmetadata = {\n    'protocolName': 'My Liquid Handling Protocol',\n    'author': 'User',\n    'description': 'Automated transfer protocol',\n    'apiLevel': '2.15'\n}\n\ndef run(protocol: protocol_api.ProtocolContext):\n    # Protocol steps go here\n    pass\n```"
+  },
+  {
+    "file": "opentrons_python_api.md",
+    "section": "Labware Loading",
+    "content": "Use `protocol.load_labware(load_name, location)` to place labware on the deck.\n```python\ntiprack_1 = protocol.load_labware('opentrons_96_tiprack_300ul', '1')\nplate_1 = protocol.load_labware('nest_96_wellplate_200ul_flat', '2')\ntrough = protocol.load_labware('nest_12_reservoir_15ml', '3')\n```"
+  },
+  {
+    "file": "opentrons_python_api.md",
+    "section": "Pipette Loading & Basic Operations",
+    "content": "Load pipettes using `protocol.load_instrument(instrument_name, mount, tip_racks)`.\n```python\np300 = protocol.load_instrument('p300_single_gen2', 'left', tip_racks=[tiprack_1])"
+  },
+  {
+    "file": "opentrons_python_api.md",
+    "section": "Basic Liquid Handling Operations",
+    "content": "p300.pick_up_tip()\np300.aspirate(100, trough['A1'])\np300.dispense(100, plate_1['A1'])\np300.drop_tip()"
+  },
+  {
+    "file": "opentrons_python_api.md",
+    "section": "High-level transfers",
+    "content": "p300.transfer(100, trough['A1'], plate_1.wells(), new_tip='always')\np300.distribute(50, trough['A1'], plate_1.wells()[:4], new_tip='once')\np300.consolidate(50, plate_1.wells()[:4], trough['A1'], new_tip='once')\n```"
+  },
+  {
+    "file": "opentrons_python_api.md",
+    "section": "Temperature Module",
+    "content": "```python\ntemp_mod = protocol.load_module('temperature module gen2', '4')\ntemp_block = temp_mod.load_labware('opentrons_24_aluminumblock_generic_2to2_1_5ml_screwcap')\ntemp_mod.set_temperature(4) # set to 4°C\ntemp_mod.deactivate()\n```"
+  },
+  {
+    "file": "opentrons_python_api.md",
+    "section": "Magnetic Module",
+    "content": "```python\nmag_mod = protocol.load_module('magnetic module gen2', '6')\nmag_plate = mag_mod.load_labware('nest_96_wellplate_100ul_pcr_full_skirt')\nmag_mod.engage(height_from_base=5) # engage magnet\nmag_mod.disengage()\n```"
+  },
+  {
+    "file": "opentrons_python_api.md",
+    "section": "Thermocycler Module",
+    "content": "```python\ntc_mod = protocol.load_module('thermocycler module')\ntc_plate = tc_mod.load_labware('nest_96_wellplate_100ul_pcr_full_skirt')\ntc_mod.open_lid()\ntc_mod.set_lid_temperature(105)\ntc_mod.set_block_temperature(4, hold_time_minutes=5)\ntc_mod.close_lid()\n```"
+  },
+  {
+    "file": "opentrons_python_api.md",
+    "section": "Heater-Shifter Module",
+    "content": "```python\nhs_mod = protocol.load_module('heaterShifterModuleV1', '1')\nhs_plate = hs_mod.load_labware('nest_96_wellplate_200ul_flat')\nhs_mod.set_target_temperature(37)\nhs_mod.set_and_wait_for_shake_speed(rpm=1000)\nhs_mod.deactivate_heater()\nhs_mod.deactivate_shaker()\nhs_mod.open_labware_latch()\n```"
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "Opentrons Python Protocol API v2 Comprehensive Reference",
+    "content": ""
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "Protocol Engine & Context (`ProtocolContext`)",
+    "content": "The `ProtocolContext` is the primary interface for interacting with the Opentrons robot inside a protocol's `run(protocol: protocol_api.ProtocolContext)` function."
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "Key Methods",
+    "content": "- `protocol.load_labware(load_name: str, location: str|int, label: str = None, namespace: str = None, version: int = None)`\n  - Loads a piece of labware onto a deck slot (e.g. `'1'`, `'D2'`).\n- `protocol.load_instrument(instrument_name: str, mount: str, tip_racks: list = None)`\n  - Loads an instrument e.g. `'p300_single_gen2'`, `'p20_multi_gen2'`, `'p1000_single_gen2'`, `'flex_1channel_50ul'`, `'flex_8channel_300ul'`. Mounts: `'left'`, `'right'`.\n- `protocol.load_module(module_name: str, location: str|int)`\n  - Loads a hardware module e.g. `'temperature module gen2'`, `'magnetic module gen2'`, `'thermocycler module'`, `'heaterShifterModuleV1'`.\n- `protocol.pause(msg: str = None)`\n  - Pauses execution until resumed by user via Opentrons App or HTTP API.\n- `protocol.resume()`\n  - Resumes execution.\n- `protocol.delay(seconds: float = 0, minutes: float = 0, msg: str = None)`\n  - Pauses execution for a specified duration.\n- `protocol.comment(msg: str)`\n  - Prints a message to the run log.\n- `protocol.home()`\n  - Homes all robot axes.\n\n---"
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "Instrument Context (`InstrumentContext` / Pipette)",
+    "content": "Represents a loaded pipette."
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "Pipette Properties",
+    "content": "- `pipette.starting_tip`: The tip location where automatic tip picking starts.\n- `pipette.default_speed`: Movement speed in mm/s.\n- `pipette.well_bottom_clearance`: Clearance from well bottom in mm for `aspirate` (default 1.0mm) and `dispense` (default 1.0mm).\n- `pipette.flow_rate`: Liquid handling speed settings.\n  - `pipette.flow_rate.aspirate`: Volume per second (uL/s).\n  - `pipette.flow_rate.dispense`: Volume per second (uL/s).\n  - `pipette.flow_rate.blow_out`: Volume per second (uL/s)."
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "Liquid Handling Operations",
+    "content": ""
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "`pick_up_tip(location=None, presses=None, increment=None)`",
+    "content": "Picks up a tip from the loaded tip racks or a specific tip location."
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "`drop_tip(location=None, home_after=True)`",
+    "content": "Drops the attached tip into the trash or a specified location/tiprack."
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "`aspirate(volume=None, location=None, rate=1.0)`",
+    "content": "Aspirates liquid into the tip.\n```python\npipette.aspirate(50, plate['A1'].bottom(1))\n```"
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "`dispense(volume=None, location=None, rate=1.0)`",
+    "content": "Dispenses liquid from the tip.\n```python\npipette.dispense(50, plate['B1'].top(-2))\n```"
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "`blow_out(location=None)`",
+    "content": "Blows out remaining liquid from the tip into a well or trash."
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "`touch_tip(location=None, radius=1.0, v_offset=-1.0, speed=60.0)`",
+    "content": "Touches the inside edges of a well to knock off remaining droplets."
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "`mix(repetitions=1, volume=None, location=None, rate=1.0)`",
+    "content": "Repeatedly aspirates and dispenses liquid to mix.\n```python\npipette.mix(3, 100, plate['A1'])\n```"
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "`air_gap(volume=None, height=None)`",
+    "content": "Draws an air gap into the tip to prevent dripping during transit.\n\n---"
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "Complex Complex Transfer Operations",
+    "content": ""
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "`transfer(volume, source, dest, new_tip='every', trash=True, touch_tip=False, blow_out=False, blowout_location='trash', mix_before=None, mix_after=None, air_gap=0)`",
+    "content": "High-level transfer helper. `source` and `dest` can be single wells, lists of wells, or labware.\n\n```python\npipette.transfer(\n    100,\n    reservoir['A1'],\n    plate.wells(),\n    new_tip='once',\n    touch_tip=True,\n    blow_out=True\n)\n```"
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "`distribute(volume, source, dest, allow_volume_overfill=True, ...)`",
+    "content": "Dispenses liquid from one source well into multiple destination wells in a single aspirate draw."
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "`consolidate(volume, source, dest, ...)`",
+    "content": "Aspirates liquid from multiple source wells and dispenses into a single destination well.\n\n---"
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "Well & Labware API",
+    "content": ""
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "Well Locations & Offsets",
+    "content": "- `well.top(z=0)`: Point at the top edge of the well.\n- `well.bottom(z=0)`: Point at the bottom center of the well.\n- `well.center()`: Geometric center of the well.\n- `well.diameter`: Diameter in mm (if circular).\n- `well.max_volume`: Capacity in uL."
+  },
+  {
+    "file": "opentrons_python_api_full.md",
+    "section": "Labware Methods",
+    "content": "- `labware.wells()`: Returns list of all wells ordered column-wise (`A1`, `B1`, `C1`, ...).\n- `labware.rows()`: Returns list of rows (`[[A1, A2...], [B1, B2...]]`).\n- `labware.columns()`: Returns list of columns (`[[A1, B1...], [A2, B2...]]`).\n- `labware.wells_by_name()`: Dictionary mapping well names (e.g. `'A1'`) to Well objects."
+  },
+  {
+    "file": "opentrons_troubleshooting_guide.md",
+    "section": "Opentrons Troubleshooting & Error Handling Guide",
+    "content": ""
+  },
+  {
+    "file": "opentrons_troubleshooting_guide.md",
+    "section": "Overview",
+    "content": "This guide provides error diagnoses, causes, and actionable remediation steps for common Opentrons API v2 and Protocol Engine errors.\n\n---"
+  },
+  {
+    "file": "opentrons_troubleshooting_guide.md",
+    "section": "1. Missing Hardware / Module Errors",
+    "content": ""
+  },
+  {
+    "file": "opentrons_troubleshooting_guide.md",
+    "section": "Error: `ERR_MODULE_NOT_CONNECTED`",
+    "content": "- **Symptom**: `Required module 'temperature module gen2' is not connected to the robot.`\n- **Cause**: Protocol calls `protocol.load_module()` for a module that is not physically plugged in via USB or powered on.\n- **Remediation**:\n  1. Check USB connection between module and robot back panel.\n  2. Verify module AC power switch is turned ON.\n  3. Query `opentrons_get_robot_status` to inspect connected modules list.\n\n---"
+  },
+  {
+    "file": "opentrons_troubleshooting_guide.md",
+    "section": "2. Tip Rack & Pipette Errors",
+    "content": ""
+  },
+  {
+    "file": "opentrons_troubleshooting_guide.md",
+    "section": "Error: `ERR_TIP_RACK_EMPTY` / `Out of Tips`",
+    "content": "- **Symptom**: `ProtocolEngineError: Tip attached error or no tips remaining in loaded tip racks.`\n- **Cause**: Pipette attempted `pick_up_tip()` but all tips in assigned tip racks have been used.\n- **Remediation**:\n  1. Add additional tip racks using `protocol.load_labware('opentrons_96_tiprack_300ul', slot)`.\n  2. Reset pipette tip tracking with `pipette.reset_tipracks()`.\n  3. Specify `pipette.starting_tip = tiprack['A1']`.\n\n---"
+  },
+  {
+    "file": "opentrons_troubleshooting_guide.md",
+    "section": "3. Labware & Deck Slot Errors",
+    "content": ""
+  },
+  {
+    "file": "opentrons_troubleshooting_guide.md",
+    "section": "Error: `ERR_INVALID_LABWARE`",
+    "content": "- **Symptom**: `Could not find labware definition for 'invalid_plate_name'`\n- **Cause**: Typo in labware `load_name` passed to `protocol.load_labware()`.\n- **Remediation**:\n  1. Search valid load names using `opentrons_search_docs` or inspect `docs/opentrons_labware_library.md`.\n  2. For custom labware, ensure the custom labware JSON definition file is uploaded to the robot.\n\n---"
+  },
+  {
+    "file": "opentrons_troubleshooting_guide.md",
+    "section": "4. Python Protocol Syntax Errors",
+    "content": ""
+  },
+  {
+    "file": "opentrons_troubleshooting_guide.md",
+    "section": "Error: `ERR_PYTHON_SYNTAX`",
+    "content": "- **Symptom**: `IndentationError: unexpected indent on line X` or `SyntaxError: invalid syntax`\n- **Cause**: Formatting error in the Python protocol file.\n- **Remediation**:\n  1. Inspect reported line number.\n  2. Use `opentrons_validate_protocol` tool before uploading.\n\n---"
+  },
+  {
+    "file": "opentrons_troubleshooting_guide.md",
+    "section": "5. Movement & Collision Safety",
+    "content": ""
+  },
+  {
+    "file": "opentrons_troubleshooting_guide.md",
+    "section": "Shaker Latch Warning",
+    "content": "- **Symptom**: Cannot aspirate/dispense or shake on Heater-Shifter module.\n- **Cause**: Labware latch is open (`open_labware_latch()`).\n- **Remediation**: Always call `hs_mod.close_labware_latch()` before pipette operations or shaking."
+  }
+]
